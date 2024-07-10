@@ -1,0 +1,13 @@
+infrastructureDefinition:
+  name: test_delete
+  identifier: test_delete
+  orgIdentifier: abhilabs
+  projectIdentifier: labsproject
+  environmentRef: test
+  deploymentType: Kubernetes
+  type: KubernetesDirect
+  spec:
+    connectorRef: sample
+    namespace: sampledelete
+    releaseName: release-<+INFRA_KEY_SHORT_ID>
+  allowSimultaneousDeployments: false
