@@ -1,47 +1,19 @@
-apiVersion: apps/v1
-kind: Deployment
 metadata:
-  name: nginxkar
+  name: "nginxkar"
+apiVersion: "apps/v1"
+kind: "Deployment"
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: nginx
   template:
     metadata:
       labels:
-        app: nginx
+        app: "nginx"
     spec:
       containers:
-        - name: nginx
-          image: nginx:latest
-          ports:
-            - containerPort: 80
-          # env:
-          #   - name: nginx_DB_HOST
-          #     value: mysql-service
-          #   - name: nginx_DB_NAME
-          #     value: nginx
-          #   - name: nginx_DB_USER
-          #     valueFrom:
-          #       secretKeyRef:
-          #         name: mysql-secret
-          #         key: username
-          #   - name: nginx_DB_PASSWORD
-          #     valueFrom:
-          #       secretKeyRef:
-          #         name: mysql-secret
-          #         key: password
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: nginxkar
-spec:
-  type: ClusterIP  # Change to NodePort or ClusterIP based on your setup
-  ports:
-    - port: 80
-      targetPort: 80
-      # nodePort: 30080  # Optional if using NodePort type
+      - name: "nginx"
+        image: "nginx:stable"
+        ports:
+        - containerPort: 80
   selector:
-    app: nginx
+    matchLabels:
+      app: "nginx"
+  replicas: 1
