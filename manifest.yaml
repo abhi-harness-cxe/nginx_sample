@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: nginxkar
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: nginx
@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: nginx
-          image: nginx:alpine-latest
+          image: latest
           ports:
             - containerPort: 80
           # env:
@@ -37,8 +37,8 @@ apiVersion: v1
 kind: Service
 metadata:
   name: nginxkar
-annotations:
-  harness.io/skipPruning: 'true'
+  annotations:
+    harness.io/skipPruning: 'true'
 spec:
   type: ClusterIP  # Change to NodePort or ClusterIP based on your setup
   ports:
