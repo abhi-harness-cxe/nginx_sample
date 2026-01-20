@@ -1,9 +1,10 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
 metadata:
-  name: nginxkar
+  name: nginx-rollout
 spec:
   replicas: 2
+  revisionHistoryLimit: 2
   selector:
     matchLabels:
       app: nginx
@@ -14,36 +15,26 @@ spec:
     spec:
       containers:
         - name: nginx
-          image: nginx:latest
+          image: nginx:1.25
           ports:
             - containerPort: 80
-          # env:
-          #   - name: nginx_DB_HOST
-          #     value: mysql-service
-          #   - name: nginx_DB_NAME
-          #     value: nginx
-          #   - name: nginx_DB_USER
-          #     valueFrom:
-          #       secretKeyRef:
-          #         name: mysql-secret
-          #         key: username
-          #   - name: nginx_DB_PASSWORD
-          #     valueFrom:
-          #       secretKeyRef:
-          #         name: mysql-secret
-          #         key: password
+          envFrom:
+            - secretRef:
+                name: abc
+  strategy:
+    canary:
+      steps:
+        - setWeight: 50
+        - pause:
+            duration: 30s
+
 ---
+
 apiVersion: v1
-kind: Service
+kind: Secret
 metadata:
-  name: nginxkar
-  annotations:
-    harness.io/skipPruning: 'true'
-spec:
-  type: ClusterIP  # Change to NodePort or ClusterIP based on your setup
-  ports:
-    - port: 80
-      targetPort: 80
-      # nodePort: 30080  # Optional if using NodePort type
-  selector:
-    app: nginx
+  name: abc
+type: Opaque
+stringData:
+  USERNAME: admin
+  PASSWORD: password123
