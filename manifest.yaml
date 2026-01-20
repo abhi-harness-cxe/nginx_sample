@@ -36,5 +36,5 @@ metadata:
   name: abc
 type: Opaque
 stringData:
-  USERNAME: admin
+  USERNAME: admin1
   PASSWORD: password123
