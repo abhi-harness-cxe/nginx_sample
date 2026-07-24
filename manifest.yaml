@@ -3,10 +3,10 @@ kind: Deployment
 metadata:
   name: nginxkar
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
-      app: nginx
+      app: nginx-unified
   template:
     metadata:
       labels:
